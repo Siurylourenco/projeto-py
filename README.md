@@ -86,4 +86,4 @@ Este projeto foi desenvolvido com o intuito de:
 
 ---
 
-> Projeto desenvolvido por [Siury Lourenco], com fins educacionais.
+> Projeto desenvolvido por Siury Lourenco, com fins educacionais.
