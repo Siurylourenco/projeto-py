@@ -1,66 +1,55 @@
-menu = """
+import streamlit as st  # type: ignore
+import time
+import matplotlib.pyplot as plt
+ 
+st.set_page_config(page_title="RunSmart", page_icon="🏃🏻‍♀️‍➡️", layout="centered")
 
-[d] Depositar
-[s] Sacar
-[e] Extrato
-[q] Sair
+st.title("🏃🏻‍♀️‍➡️RunSmart  - Seu Assistente de corrida ao Ar livre")
+st.markdown("Organize seu treini baseado no clima do dia e registro o tempo por km!")
 
-=> """
+clima = st.selectbox("Como está o clima agora?", ["Selecione", "Ensolarado", "Nublado", "Chuvoso"])
 
-saldo = 0
-limite = 500
-extrato = ""
-numero_saques = 0
-LIMITE_SAQUES = 3
-
-while True:
-
-    opcao = input(menu)
-
-    if opcao == "d":
-        valor = float(input("Informe o valor do depósito: "))
-
-        if valor > 0:
-            saldo += valor
-            extrato += f"Depósito: R$ {valor:.2f}\n"
-
-        else:
-            print("Operação falhou! O valor informado é inválido.")
-
-    elif opcao == "s":
-        valor = float(input("Informe o valor do saque: "))
-
-        excedeu_saldo = valor > saldo
-
-        excedeu_limite = valor > limite
-
-        excedeu_saques = numero_saques >= LIMITE_SAQUES
-
-        if excedeu_saldo:
-            print("Operação falhou! Você não tem saldo suficiente.")
-
-        elif excedeu_limite:
-            print("Operação falhou! O valor do saque excede o limite.")
-
-        elif excedeu_saques:
-            print("Operação falhou! Número máximo de saques excedido.")
-
-        elif valor > 0:
-            saldo -= valor
-            extrato += f"Saque: R$ {valor:.2f}\n"
-            numero_saques += 1
-
-        else:
-            print("Operação falhou! O valor informado é inválido.")
-
-    elif opcao == "e":
-        print("\n================ EXTRATO ================")
-        print("Não foram realizadas movimentações." if not extrato else extrato)
-        print(f"\nSaldo: R$ {saldo:.2f}")
-        print("==========================================")
-
-    elif opcao == "q":
-        break
-
-    else:
-        print("Operação inválida, por favor selecione novamente a operação desejada.")
+if clima == "Ensolarado":
+    st.sucess("ótimo! Dia perfeito para correr ao ar livre!")
+    
+    km_total = st.slider("Quantos km você quer correr hoje?", 1, 10, 3)
+    
+    if st.buttun("Iniciar Treino"):
+        tempos_km = []
+        st.write("Preparando corrida...")
+        
+        for km in range(1, km_total + 1):
+            st.write(f" Corra o km {km}!")
+            tempo = st.number_input(f"Digite o tempo (minutos) para o km {km}:", min_value=1.0, max_value=60.0, value=5.0, step=0.1, key=f"tempo_{km}")
+            
+            progress_bar = st.progress(0)
+            for pct in range(101):
+                time.sleep(0.05)
+                progress_bar.progress(pct)
+            st.sucess(f" km {km} Completo em {tempo} minutos!")
+            tempos_km.append(tempo)
+            st.write("--")
+            
+    total_tempo = sum(tempo_km)
+    media_tempo = total_tempo / km_total
+    
+    st.balloons()
+    st.markdowm(f" **Parabéns! Você completou {km_total} km em {total_tempo: 2f} minutos!**")
+    st.markdown(f"Média por km: {media_tempo: 2f} minutos!")        
+            
+    # Gráfico de barras do desempenho
+    fig. ax = plt.subplots()
+    ax.bar(range(1, km_total + 1), tempos_km, color='skyblue')
+    ax.set_xlabel("KM")
+    ax.set_ylabel("Tempo (minutos)")
+    ax.set_title("Tempo por km")
+    ax.set_xticks(range(1, km_total + 1))
+    st.pyplot(fig) 
+    
+elif clima in ["Nublado", "Chuvoso"]:
+    st.warning("Hoje não é ideal para correr ao ar livre. Que tal um treino em casa ou descanso ativo?")
+    
+elif clima == "Selecione":
+    st.info("Por favor, selecione o clima para começar")  
+ 
+    
