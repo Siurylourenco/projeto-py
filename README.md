@@ -27,7 +27,7 @@ Condicionais são blocos de código que **tomam decisões** com base em uma cond
 > "Se o clima está bom, devo correr?"
 
  
-### 🔁 Estruturas Repetitivas (for loop)
+### 🔁 Estruturas Repetitivas (for / loop)
 Estruturas repetitivas são usadas quando precisamos repetir uma ação várias vezes. No projeto, usamos para:
 
 Coletar os tempos de corrida a cada km informado pelo usuário.
