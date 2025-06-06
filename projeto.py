@@ -13,8 +13,10 @@ if clima == "Ensolarado":
     st.success("Ótimo! Dia perfeito para correr ao ar livre!")
 
     km_total = st.slider("Quantos km você quer correr hoje?", 1, 10, 3)
-if "tempos_km" not in st.session_state or len(st.session_state.tempos_km) != km_total:
-    st.session_state.tempos_km = [5.0] * km_total
+
+    if "tempos_km" not in st.session_state or len(st.session_state.tempos_km) != km_total:
+        st.session_state.tempos_km = [5.0] * km_total
+
 
 st.markdown("### ⏱️ Registre o tempo de cada quilômetro:")
 for km in range(km_total):
