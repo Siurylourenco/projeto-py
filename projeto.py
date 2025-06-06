@@ -17,6 +17,35 @@ if clima == "Ensolarado":
     if "tempos_km" not in st.session_state or len(st.session_state.tempos_km) != km_total:
         st.session_state.tempos_km = [5.0] * km_total
 
+st.markdown("### ⏱️ Registre o tempo de cada quilômetro:")
+for km in range(km_total):
+    st.session_state.tempos_km[km] = st.number_input(
+        f"Tempo do KM {km + 1} (minutos):",
+        min_value=1.0,
+        max_value=60.0,
+        value=st.session_state.tempos_km[km],
+        step=0.1,
+        key=f"tempo_{km}"
+    )
+
+if st.button("🏁 Finalizar Corrida"):
+    total_tempo = sum(st.session_state.tempos_km)
+    media_tempo = total_tempo / km_total
+
+    st.balloons()
+    st.markdown(f"**Parabéns! Você completou {km_total} km em {total_tempo:.2f} minutos!**")
+    st.markdown(f"Média por km: **{media_tempo:.2f} minutos**")
+
+    # Gráfico
+    fig, ax = plt.subplots()
+    ax.bar(range(1, km_total + 1), st.session_state.tempos_km, color='skyblue')
+    ax.set_xlabel("KM")
+    ax.set_ylabel("Tempo (minutos)")
+    ax.set_title("Tempo por KM")
+    ax.set_xticks(range(1, km_total + 1))
+    st.pyplot(fig)
+
+
 
 st.markdown("### ⏱️ Registre o tempo de cada quilômetro:")
 for km in range(km_total):
